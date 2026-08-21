@@ -207,7 +207,7 @@ WHERE NOT EXISTS (
     WHERE oi.product_id = p.product_id
 )
 AND p.is_active = true
-ORDER BY p.product_name
+ORDER BY p.product_name;
 
 --Клиенты, которые потратили больше среднего и имеют более 1 заказа
 
