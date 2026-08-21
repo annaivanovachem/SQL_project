@@ -379,9 +379,9 @@ UNION ALL
 SELECT 'product_reviews', COUNT(*) FROM st.product_reviews
 
 --Ожидаемый вывод:  
-customers	30  
-products	21  
-orders	32  
-order_items	37  
-order_status_history	34  
-product_reviews	30  
+--customers	30  
+--products	21  
+--orders	32  
+--order_items	37  
+--order_status_history	34  
+--product_reviews	30  
