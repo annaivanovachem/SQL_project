@@ -12,7 +12,7 @@ SELECT
 FROM st.product_reviews r
 JOIN st.customers c ON r.customer_id = c.customer_id
 JOIN st.products p ON r.product_id = p.product_id
-ORDER BY r.created_at
+ORDER BY r.created_at;
 
 --Найти все активные товары категории 'Smartphones' дороже 1000$, отсортированные по цене
 
@@ -26,7 +26,7 @@ FROM st.products
 WHERE category = 'Smartphones' 
   AND price > 1000
   AND is_active = true
-ORDER BY price desc
+ORDER BY price desc;
 
 --Вывести общую сумму заказов и количество заказов для каждого клиента (только с заказами)
 
@@ -39,7 +39,7 @@ SELECT
 FROM st.customers c
 INNER JOIN st.orders o ON c.customer_id = o.customer_id
 GROUP BY c.customer_id, c.full_name
-ORDER BY total_spent desc
+ORDER BY total_spent desc;
 
 --Все клиенты и количество их заказов (включая тех, у кого нет заказов)
 
@@ -52,7 +52,7 @@ SELECT
 FROM st.customers c
 LEFT JOIN st.orders o ON c.customer_id = o.customer_id
 GROUP BY c.customer_id, c.full_name, c.email
-ORDER BY order_count DESC
+ORDER BY order_count DESC;
 
 --Категории товаров со средней ценой выше 500$ и количеством товаров не менее 2
 
@@ -66,7 +66,7 @@ FROM st.products
 WHERE is_active = true
 GROUP BY category
 HAVING AVG(price) > 500 AND COUNT(*) >= 2
-ORDER BY avg_price DESC
+ORDER BY avg_price DESC;
 
 --Товары, цена которых выше средней цены по всем товарам
 
@@ -77,7 +77,7 @@ SELECT
     ROUND((SELECT AVG(price) FROM st.products), 2) AS avg_price_all
 FROM st.products
 WHERE price > (SELECT AVG(price) FROM st.products)
-ORDER BY price DESC
+ORDER BY price DESC;
 
 --Клиенты, которые делали заказы с оплатой картой
 
@@ -91,7 +91,7 @@ WHERE customer_id IN (
     FROM st.orders 
     WHERE payment_method = 'card'
 )
-ORDER BY full_name
+ORDER BY full_name;
 
 --Товары, которые были хотя бы раз заказаны
 
@@ -106,7 +106,7 @@ WHERE EXISTS (
     FROM st.order_items oi 
     WHERE oi.product_id = p.product_id
 )
-ORDER BY p.product_name
+ORDER BY p.product_name;
 
 --Товары дороже хотя бы одного товара из категории 'Laptops'
 
@@ -122,7 +122,7 @@ WHERE price > ANY (
       AND is_active = true
 )
 AND category != 'Laptops'
-ORDER BY price desc
+ORDER BY price desc;
 
 --Товары дороже всех товаров категории 'Headphones'
 
@@ -136,7 +136,7 @@ WHERE price > ALL (
     FROM st.products 
     WHERE category = 'Headphones'
 )
-ORDER BY price desc
+ORDER BY price desc;
 
 --Топ-2 самых дорогих товара в каждой категории
 
@@ -156,7 +156,7 @@ SELECT
     price_rank
 FROM ranked_products
 WHERE price_rank <= 2
-ORDER BY category, price_rank
+ORDER BY category, price_rank;
 
 --Накопительная выручка по дням (кумулятивная сумма заказов)
 
@@ -167,7 +167,7 @@ SELECT
     SUM(SUM(total_amount)) OVER (ORDER BY DATE(order_date)) AS cumulative_revenue
 FROM st.orders
 GROUP BY DATE(order_date)
-ORDER BY order_day
+ORDER BY order_day;
 
 --Иерархия заказов и их статусов (построение цепочки изменений статуса для заказа)
 
@@ -212,7 +212,7 @@ SELECT
     step,
     EXTRACT(EPOCH FROM (changed_at - start_time)) / 3600 AS hours_from_start
 FROM order_chain
-ORDER BY order_id, step
+ORDER BY order_id, step;
 
 --Товары, у которых цена выше средней цены товаров в их категории
 
@@ -233,7 +233,7 @@ WHERE p1.is_active = true
       FROM st.products p2 
       WHERE p2.category = p1.category
   )
-ORDER BY p1.category, p1.price DESC
+ORDER BY p1.category, p1.price DESC;
 
 --Товары, которые никогда не заказывались
 
