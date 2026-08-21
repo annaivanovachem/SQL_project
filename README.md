@@ -71,7 +71,7 @@ CREATE TABLE st.customers (
     city           VARCHAR(50) NOT NULL,  
     registered_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     is_active      BOOLEAN DEFAULT true  
-)  
+);  
 
 -- 2. Таблица товаров  
 CREATE TABLE st.products (  
@@ -86,7 +86,7 @@ CREATE TABLE st.products (
     is_active      BOOLEAN DEFAULT true,   
     created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     updated_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
-)  
+);  
 
 -- 3. Таблица заказов   
 CREATE TABLE st.orders (  
@@ -99,7 +99,7 @@ CREATE TABLE st.orders (
     delivery_date   DATE,  
     CONSTRAINT fk_orders_customer   
         FOREIGN KEY (customer_id) REFERENCES st.customers(customer_id)  
-)  
+);  
 
 -- 4. Таблица-связка (позиции заказа)  
 CREATE TABLE st.order_items (  
@@ -112,7 +112,7 @@ CREATE TABLE st.order_items (
         FOREIGN KEY (order_id) REFERENCES st.orders(order_id) ON DELETE CASCADE,  
     CONSTRAINT fk_order_items_product   
         FOREIGN KEY (product_id) REFERENCES st.products(product_id)  
-)  
+);  
 
 -- 5. Версионная таблица (SCD Type 2) - история статусов заказов  
 CREATE TABLE st.order_status_history (  
@@ -129,7 +129,7 @@ CREATE TABLE st.order_status_history (
     CONSTRAINT check_status CHECK (  
         status IN ('created', 'paid', 'processing', 'shipped', 'delivered', 'cancelled')  
 	)   
-)  
+);  
 
 -- 6.Таблица отзывы  
 CREATE TABLE st.product_reviews (  
@@ -150,7 +150,7 @@ CREATE TABLE st.product_reviews (
         FOREIGN KEY (order_id) REFERENCES st.orders(order_id) ON DELETE SET NULL,  
     CONSTRAINT unique_customer_product_review   
         UNIQUE (customer_id, product_id)  
-    )-- один клиент может оставить только один отзыв на товар   
+    );-- один клиент может оставить только один отзыв на товар   
 
 -- Вставка данных в таблицы. Все данные сгенерированы ИИ.  
 
@@ -184,7 +184,7 @@ INSERT INTO st.customers (email, full_name, phone, address, city, registered_at,
     ('viktor.sidorov@gmail.com', 'Viktor Sidorov', '+7-999-666-5577', 'ул. Победы, д. 2, кв. 33', 'Volgograd', '2024-03-20 15:40:00', true),
     ('emily.davis@outlook.com', 'Emily Davis', '+44-20-2345-6789', '22 Baker St, Apt 3', 'London', '2024-03-22 12:00:00', true),
     ('nadezhda.kuznetsova@mail.ru', 'Nadezhda Kuznetsova', '+7-999-777-6688', 'ул. Гоголя, д. 19, кв. 6', 'Saratov', '2024-03-25 08:50:00', true),
-    ('kevin.martin@gmail.com', 'Kevin Martin', '+1-555-345-9012', '147 Pine St, Apt 7', 'Portland', '2024-03-28 17:15:00', true)
+    ('kevin.martin@gmail.com', 'Kevin Martin', '+1-555-345-9012', '147 Pine St, Apt 7', 'Portland', '2024-03-28 17:15:00', true);
     
     INSERT INTO st.products (product_name, category, description, price, stock_quantity, manufacturer, weight_kg, is_active, created_at) VALUES
     ('iPhone 15 Pro Max', 'Smartphones', 'Apple flagship smartphone with A17 chip and 6.7-inch display', 1199.99, 45, 'Apple', 0.22, true, '2024-01-01 10:00:00'),
@@ -207,7 +207,7 @@ INSERT INTO st.customers (email, full_name, phone, address, city, registered_at,
     ('Corsair Vengeance 32GB', 'Components', 'DDR5 RAM kit with 32GB capacity and RGB lighting', 159.99, 50, 'Corsair', 0.05, true, '2024-01-18 12:00:00'),
     ('LG 27" 4K Monitor', 'Monitors', '27-inch 4K UHD monitor with HDR10 and USB-C', 449.99, 20, 'LG', 5.00, true, '2024-01-19 13:00:00'),
     ('Dell 24" FHD Monitor', 'Monitors', '24-inch Full HD monitor for home and office use', 199.99, 32, 'Dell', 3.80, true, '2024-01-20 14:00:00'),
-    ('Canon EOS R5', 'Cameras', 'Professional mirrorless camera with 45MP and 8K video', 3899.99, 5, 'Canon', 0.70, false, '2024-01-21 15:00:00')
+    ('Canon EOS R5', 'Cameras', 'Professional mirrorless camera with 45MP and 8K video', 3899.99, 5, 'Canon', 0.70, false, '2024-01-21 15:00:00');
 
   INSERT INTO st.orders (customer_id, order_date, total_amount, shipping_address, payment_method, delivery_date) VALUES
     (1, '2024-02-01 10:15:00', 1199.99, 'ул. Ленина, д. 10, кв. 15, Moscow', 'card', '2024-02-05'),
@@ -241,7 +241,7 @@ INSERT INTO st.customers (email, full_name, phone, address, city, registered_at,
     (19, '2024-04-02 18:15:00', 2499.99, '258 Willow St, Boston', 'card', '2024-04-06'),
     (20, '2024-04-07 09:45:00', 149.99, 'ул. Тверская, д. 14, кв. 18, Moscow', 'cash', '2024-04-11'),
     (22, '2024-04-12 13:30:00', 199.99, 'ул. Садовая, д. 6, кв. 11, Voronezh', 'card', '2024-04-16'),
-    (1, '2024-04-17 10:00:00', 499.99, 'ул. Ленина, д. 10, кв. 15, Moscow', 'paypal', '2024-04-21')
+    (1, '2024-04-17 10:00:00', 499.99, 'ул. Ленина, д. 10, кв. 15, Moscow', 'paypal', '2024-04-21');
   
  INSERT INTO st.order_items (order_id, product_id, quantity, price_at_order) VALUES
     (1, 1, 1, 1199.99),
@@ -280,7 +280,7 @@ INSERT INTO st.customers (email, full_name, phone, address, city, registered_at,
     (29, 3, 1, 2499.99),
     (30, 16, 1, 149.99),
     (31, 20, 1, 199.99),
-    (32, 9, 1, 499.99)
+    (32, 9, 1, 499.99);
   
  INSERT INTO st.order_status_history (order_id, status, changed_at, comment, valid_from, valid_to, is_current) VALUES
     -- Заказ 1: полный цикл (created → paid → processing → shipped → delivered)
@@ -331,7 +331,7 @@ INSERT INTO st.customers (email, full_name, phone, address, city, registered_at,
     (8, 'created', '2024-03-01 17:00:00', 'Заказ создан', '2024-03-01 17:00:00', '2024-03-01 17:05:00', false),
     (8, 'paid', '2024-03-01 17:05:00', 'Оплата наличными', '2024-03-01 17:05:00', '2024-03-02 09:00:00', false),
     (8, 'shipped', '2024-03-02 09:00:00', 'Передан в доставку', '2024-03-02 09:00:00', '2024-03-05 14:00:00', false),
-    (8, 'delivered', '2024-03-05 14:00:00', 'Доставлен', '2024-03-05 14:00:00', NULL, true)
+    (8, 'delivered', '2024-03-05 14:00:00', 'Доставлен', '2024-03-05 14:00:00', NULL, true);
     
  INSERT INTO st.product_reviews (customer_id, product_id, order_id, rating, review_text, is_verified_purchase, created_at, updated_at) VALUES
     (1, 1, 1, 5, 'Отличный смартфон! Камера невероятная, работает очень быстро. Батареи хватает на целый день активного использования. Рекомендую всем!', true, '2024-02-06 10:00:00', '2024-02-06 10:00:00'),
@@ -363,7 +363,7 @@ INSERT INTO st.customers (email, full_name, phone, address, city, registered_at,
     (17, 1, 27, 5, 'Новый iPhone - просто космос! Камера бомба, работает без лагов. Лучший смартфон, что у меня был.', true, '2024-03-27 14:20:00', '2024-03-27 14:20:00'),
     (18, 5, 28, 4, 'Хороший звук, но для любителей мощного баса может не хватить. Шумодав отличный, качество сборки высокое.', true, '2024-04-01 09:40:00', '2024-04-01 09:40:00'),
     (19, 3, 29, 5, 'Лучший выбор для разработчиков под iOS! Работает без нареканий, производительность шикарная.', true, '2024-04-07 15:10:00', '2024-04-07 15:10:00'),
-    (20, 16, 30, 5, 'Отличный внешний SSD! Очень быстрый и компактный, помещается в карман. Надежный и качественный!', true, '2024-04-12 11:30:00', '2024-04-12 11:30:00')
+    (20, 16, 30, 5, 'Отличный внешний SSD! Очень быстрый и компактный, помещается в карман. Надежный и качественный!', true, '2024-04-12 11:30:00', '2024-04-12 11:30:00');
 
 --Проверка, запустите следующий скрипт:  
 SELECT 'customers' AS table_name, COUNT(*) AS count FROM st.customers
