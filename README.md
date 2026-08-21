@@ -58,8 +58,8 @@
 1. Установите PostgreSQL, DBeaver
 2. Выполните скрипты в указанном порядке:
 
-```CREATE SCHEMA st  
-
+```
+CREATE SCHEMA st
 
 -- 1. Таблица клиентов  
 CREATE TABLE st.customers (  
