@@ -38,8 +38,23 @@
 
 -MVP для стартапа в сфере электронной коммерции
 
+Ветка docs содержит sql-скрипты: Shema+insert.sql - создание таблиц, вставка записей, проверка корректности работы. requests.sql - 15 запросов, view.sql - представления    
 
-**Как запускать проект:**  
+## Описание таблиц 
+<img width="718" height="211" alt="image" src="https://github.com/user-attachments/assets/7de33791-e500-44a7-99c0-ef1736db87de" />
+
+<img width="718" height="270" alt="image" src="https://github.com/user-attachments/assets/0882b8fe-7019-49fa-90f1-d937675733e6" />  
+
+<img width="718" height="190" alt="image" src="https://github.com/user-attachments/assets/a38e58ef-0f4c-436c-ab86-46689f188a6d" />  
+
+<img width="718" height="148" alt="image" src="https://github.com/user-attachments/assets/737f639e-43d1-413e-9adf-3d612218825f" />  
+
+<img width="718" height="209" alt="image" src="https://github.com/user-attachments/assets/e036a6d6-a054-43d3-bd38-a09e901a96c4" />  
+
+<img width="718" height="221" alt="image" src="https://github.com/user-attachments/assets/d870e6ae-c37d-42c5-826f-088a620d6e54" />  
+
+
+## Как запускать проект:    
 1. Установите PostgreSQL, DBeaver
 2. Выполните скрипты в указанном порядке:
 
