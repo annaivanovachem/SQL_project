@@ -11,7 +11,7 @@ SELECT
 FROM st.orders o
 JOIN st.customers c ON o.customer_id = c.customer_id
 JOIN st.order_status_history h ON o.order_id = h.order_id
-WHERE h.is_current = true
+WHERE h.is_current = true;
 
 -- Представление: итоги по товарам (количество продаж, выручка, средний рейтинг)
 CREATE VIEW st.v_product_performance AS
@@ -26,7 +26,7 @@ SELECT
 FROM st.products p
 LEFT JOIN st.order_items oi ON p.product_id = oi.product_id
 LEFT JOIN st.product_reviews r ON p.product_id = r.product_id
-GROUP BY p.product_id, p.product_name, p.category
+GROUP BY p.product_id, p.product_name, p.category;
 
 -- Представление: клиенты с их суммарными тратами и количеством заказов
 CREATE VIEW st.v_customer_spending AS
