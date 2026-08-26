@@ -56,18 +56,18 @@ CREATE TABLE st.order_items (
 -- 5. Версионная таблица (SCD Type 2) - история статусов заказов  
 CREATE TABLE st.order_status_history (  
     history_id     BIGSERIAL PRIMARY KEY,  
-    order_id       BIGINT NOT NULL,  
-    status         VARCHAR(20) NOT NULL,   
+    order_id       BIGINT NOT null,  
+    status         VARCHAR(20) NOT null,   
     changed_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     comment        TEXT,  
-    valid_from     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,  
     valid_to       TIMESTAMP,  
     is_current     BOOLEAN NOT NULL DEFAULT true,  
     CONSTRAINT fk_status_history_order   
         FOREIGN KEY (order_id) REFERENCES st.orders(order_id) ON DELETE CASCADE,  
     CONSTRAINT check_status CHECK (  
         status IN ('created', 'paid', 'processing', 'shipped', 'delivered', 'cancelled')  
-	)   
+	),
+	CONSTRAINT unique_order UNIQUE (order_id, status, is_current)
 );  
 
 -- 6.Таблица отзывы  
