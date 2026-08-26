@@ -121,7 +121,6 @@ CREATE TABLE st.order_status_history (
     status         VARCHAR(20) NOT null,   
     changed_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     comment        TEXT,  
-    valid_from     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,  
     valid_to       TIMESTAMP,  
     is_current     BOOLEAN NOT NULL DEFAULT true,  
     CONSTRAINT fk_status_history_order   
@@ -130,7 +129,7 @@ CREATE TABLE st.order_status_history (
         status IN ('created', 'paid', 'processing', 'shipped', 'delivered', 'cancelled')  
 	),
 	CONSTRAINT unique_order UNIQUE (order_id, status, is_current)
-)  
+); 
 
 -- 6.Таблица отзывы  
 CREATE TABLE st.product_reviews (  
