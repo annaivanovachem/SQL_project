@@ -150,7 +150,16 @@ CREATE TABLE st.product_reviews (
         FOREIGN KEY (order_id) REFERENCES st.orders(order_id) ON DELETE SET NULL,  
     CONSTRAINT unique_customer_product_review   
         UNIQUE (customer_id, product_id)  
-    );-- один клиент может оставить только один отзыв на товар   
+    );-- один клиент может оставить только один отзыв на товар  
+
+--Создание индексов на внешние ключи:
+CREATE INDEX idx_orders_customer_id ON st.orders(customer_id);  
+CREATE INDEX idx_order_items_order_id ON st.order_items(order_id);  
+CREATE INDEX idx_order_items_product_id ON st.order_items(product_id);  
+CREATE INDEX idx_status_history_order_id ON st.order_status_history(order_id);  
+CREATE INDEX idx_reviews_customer_id ON st.product_reviews(customer_id);  
+CREATE INDEX idx_reviews_product_id ON st.product_reviews(product_id);  
+CREATE INDEX idx_reviews_order_id ON st.product_reviews(order_id);  
 
 -- Вставка данных в таблицы. Все данные сгенерированы ИИ.  
 
