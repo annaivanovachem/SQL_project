@@ -9,8 +9,8 @@ SELECT
     h.changed_at AS last_status_change,
     h.comment
 FROM st.orders o
-JOIN st.customers c ON o.customer_id = c.customer_id
-JOIN st.order_status_history h ON o.order_id = h.order_id
+LEFT JOIN st.customers c ON o.customer_id = c.customer_id
+LEFT JOIN st.order_status_history h ON o.order_id = h.order_id
 WHERE h.is_current = true;
 
 -- Представление: итоги по товарам (количество продаж, выручка, средний рейтинг)
