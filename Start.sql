@@ -1,4 +1,4 @@
-CREATE SCHEMA st
+CREATE SCHEMA st;
 
 -- 1. Таблица клиентов  
 CREATE TABLE st.customers (  
