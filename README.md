@@ -26,13 +26,13 @@
 **order_items** — таблица-связка (товары в заказе)  
 **order_status_history** — версионная таблица — история статусов заказов  
 
-<img width="4000" height="2250" alt="логический-физический" src="https://github.com/user-attachments/assets/35c6006d-635e-4305-8c94-3987f4113e1c" />
+<img width="4000" height="2250" alt="логический-физический" src="https://github.com/user-attachments/assets/ecbd2b6a-78cc-4414-8574-3d861062ae01" />
 
 Для чего подойдет проект:
 
 -Прототип для интернет-магазина
 
--Система управления заказами (OMS)
+-Система управления заказами
 
 -Аналитическая платформа для e-commerce
 
@@ -49,7 +49,7 @@
 
 <img width="718" height="148" alt="image" src="https://github.com/user-attachments/assets/737f639e-43d1-413e-9adf-3d612218825f" />  
 
-<img width="718" height="209" alt="image" src="https://github.com/user-attachments/assets/e036a6d6-a054-43d3-bd38-a09e901a96c4" />  
+<img width="718" height="189" alt="image" src="https://github.com/user-attachments/assets/7e449ccc-cb37-4c77-b4c8-178e618cc878" />
 
 <img width="718" height="221" alt="image" src="https://github.com/user-attachments/assets/d870e6ae-c37d-42c5-826f-088a620d6e54" />  
 
