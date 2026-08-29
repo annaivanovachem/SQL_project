@@ -129,7 +129,78 @@ CREATE TABLE st.order_status_history (
         status IN ('created', 'paid', 'processing', 'shipped', 'delivered', 'cancelled')  
 	),
 	CONSTRAINT unique_order UNIQUE (order_id, status, is_current)
-); 
+);  
+-- Функция проверки пересечения интервалов  
+
+CREATE OR REPLACE FUNCTION check_no_overlapping_intervals()  
+RETURNS TRIGGER AS $$  
+DECLARE  
+    v_overlap_count INTEGER;  
+BEGIN  
+    -- Проверка 1: valid_to должен быть больше changed_at (если не NULL)  
+    IF NEW.valid_to IS NOT NULL AND NEW.valid_to <= NEW.changed_at THEN  
+        RAISE EXCEPTION 'valid_to (%) должен быть больше changed_at (%)',  
+            NEW.valid_to, NEW.changed_at;  
+    END IF;  
+
+    -- Проверка 2: если valid_to NULL, то это текущая версия (is_current = true)  
+    IF NEW.valid_to IS NULL AND NEW.is_current = false THEN  
+        RAISE EXCEPTION 'Неактивная версия должна иметь valid_to (указать дату окончания)';  
+    END IF;  
+
+    -- Проверка 3: пересечение интервалов [changed_at, valid_to)  
+    SELECT COUNT(*) INTO v_overlap_count  
+    FROM st.order_status_history  
+    WHERE order_id = NEW.order_id  
+      AND (TG_OP = 'INSERT' OR history_id != NEW.history_id)  -- исключаем себя при UPDATE  
+      AND (  
+          -- Интервалы пересекаются, если:  
+          (NEW.changed_at < valid_to AND (NEW.valid_to > changed_at OR NEW.valid_to IS NULL))  
+          OR (valid_to IS NULL AND NEW.valid_to IS NULL)  -- два NULL интервала = пересечение  
+      );  
+
+    IF v_overlap_count > 0 THEN  
+        RAISE EXCEPTION 'Пересечение интервалов для order_id = %. Период: % - %',  
+            NEW.order_id, NEW.changed_at, COALESCE(NEW.valid_to::TEXT, '∞');  
+    END IF;  
+
+    RETURN NEW;  
+END;  
+$$ LANGUAGE plpgsql;  
+
+-- Триггер для проверки пересечения интервалов  
+
+CREATE TRIGGER trg_check_no_overlapping_intervals  
+BEFORE INSERT OR UPDATE ON st.order_status_history  
+FOR EACH ROW  
+EXECUTE FUNCTION check_no_overlapping_intervals();  
+
+-- Функция для автоматического обновления valid_to при закрытии версии  
+
+CREATE OR REPLACE FUNCTION close_previous_version()  
+RETURNS TRIGGER AS $$   
+BEGIN  
+    -- Если вставляется новая версия (is_current = true), закрываем старую  
+    IF NEW.is_current = true THEN   
+        UPDATE st.order_status_history  
+        SET   
+            is_current = false,   
+            valid_to = NEW.changed_at  
+        WHERE order_id = NEW.order_id  
+          AND is_current = true  
+          AND history_id != NEW.history_id;  
+    END IF;  
+    
+    RETURN NEW;  
+END;  
+$$ LANGUAGE plpgsql;  
+
+-- Триггер для автоматического закрытия предыдущей версии
+
+CREATE TRIGGER trg_close_previous_version
+BEFORE INSERT ON st.order_status_history
+FOR EACH ROW
+EXECUTE FUNCTION close_previous_version();
 
 -- 6.Таблица отзывы  
 CREATE TABLE st.product_reviews (  
