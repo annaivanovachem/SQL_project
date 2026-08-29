@@ -139,7 +139,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_close_previous_version
 BEFORE INSERT ON st.order_status_history
 FOR EACH ROW
-EXECUTE FUNCTION close_previous_version();  
+EXECUTE FUNCTION close_previous_version();
 
 -- 6.Таблица отзывы  
 CREATE TABLE st.product_reviews (  
@@ -160,7 +160,7 @@ CREATE TABLE st.product_reviews (
         FOREIGN KEY (order_id) REFERENCES st.orders(order_id) ON DELETE SET NULL,  
     CONSTRAINT unique_customer_product_review   
         UNIQUE (customer_id, product_id)  
-    );-- один клиент может оставить только один отзыв на товар   
+    );-- один клиент может оставить только один отзыв на товар  
 
 --Создание индексов на внешние ключи:
 CREATE INDEX idx_orders_customer_id ON st.orders(customer_id);  
@@ -262,7 +262,7 @@ INSERT INTO st.orders (customer_id, order_date, total_amount, shipping_address, 
     (22, '2024-04-12 13:30:00', 199.99, 'ул. Садовая, д. 6, кв. 11, Voronezh', 'card', '2024-04-16'),
     (1, '2024-04-17 10:00:00', 499.99, 'ул. Ленина, д. 10, кв. 15, Moscow', 'paypal', '2024-04-21');
   
-INSERT INTO st.order_items (order_id, product_id, quantity, price_at_order) VALUES
+  INSERT INTO st.order_items (order_id, product_id, quantity, price_at_order) VALUES
     (1, 1, 1, 1199.99),
     (2, 6, 1, 249.99),
     (3, 3, 1, 2499.99),
